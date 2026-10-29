@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cabinet — Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f4f0; --fg:#111; --muted:#76726b; --line:#dcd8d0; --card:#ebe8e2; --accent:#111;
+  --serif:"Cormorant Garamond",Georgia,serif; --sans:Inter,system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#111110;--fg:#f1eee8;--muted:#8d8980;--line:#2b2a27;--card:#1c1b19;--accent:#f1eee8}
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+header.top{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;
+  padding:18px 32px;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.logo{font:500 26px/1 var(--serif);letter-spacing:.02em;text-decoration:none}
+nav{display:flex;gap:28px;align-items:center;font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+nav a{text-decoration:none;color:var(--muted);transition:color .2s}
+nav a:hover,nav a.on{color:var(--fg)}
+main{max-width:1280px;margin:0 auto;padding:0 32px 96px}
+.hero{padding:96px 0 64px;max-width:860px}
+.hero h1{font:400 clamp(40px,7vw,88px)/1.02 var(--serif);margin:0 0 24px;letter-spacing:-.01em}
+.hero h1 em{font-style:italic}
+.hero p{color:var(--muted);max-width:520px;margin:0;font-size:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:48px 28px}
+.card{text-decoration:none;display:block}
+.card .img{aspect-ratio:4/5;background:var(--card);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.card img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.card:hover img{transform:scale(1.03)}
+.card .ph{font:italic 64px var(--serif);color:var(--muted)}
+.card .meta{margin-top:14px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.card h3{font:500 26px/1.15 var(--serif);margin:6px 0 0}
+.empty{color:var(--muted);padding:40px 0}
+.article{max-width:720px;margin:0 auto;padding-top:72px}
+.article .cat{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.article h1{font:400 clamp(36px,6vw,64px)/1.05 var(--serif);margin:12px 0 16px}
+.article .date{color:var(--muted);font-size:13px;margin-bottom:40px}
+.article .cover{width:100%;margin:0 0 48px;display:block}
+.prose{font:400 20px/1.7 var(--serif)}
+.prose h2{font:500 34px/1.2 var(--serif);margin:2em 0 .4em}
+.prose h3,.prose h4{font:500 26px/1.2 var(--serif);margin:1.6em 0 .4em}
+.prose p{margin:0 0 1.2em}
+.prose img{max-width:100%;display:block;margin:2em 0}
+.prose blockquote{margin:1.6em 0;padding-left:24px;border-left:2px solid var(--fg);font-style:italic;font-size:1.15em}
+.prose hr{border:0;border-top:1px solid var(--line);margin:2.5em 0}
+.prose code{font:14px ui-monospace,monospace;background:var(--card);padding:2px 5px}
+.prose pre{background:var(--card);padding:16px;overflow:auto}
+.back{display:inline-block;margin-top:56px;font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.btn{font:500 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;padding:11px 20px;border:1px solid var(--fg);
+  background:transparent;color:var(--fg);cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
+.btn:hover,.btn.primary{background:var(--fg);color:var(--bg)}
+.btn.primary:hover{opacity:.85}
+.btn.danger{border-color:#b3382c;color:#b3382c}.btn.danger:hover{background:#b3382c;color:#fff}
+.bar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:48px 0 24px}
+.list{border-top:1px solid var(--line)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 0;border-bottom:1px solid var(--line)}
+.row b{font:500 22px var(--serif)}
+.row small{color:var(--muted);display:block}
+.tag{font-size:11px;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);padding:2px 8px;color:var(--muted)}
+.editor{display:grid;grid-template-columns:1fr 1fr;gap:40px;padding-top:40px}
+@media(max-width:900px){.editor{grid-template-columns:1fr}}
+label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:18px 0 6px}
+input[type=text],input[type=url],textarea{width:100%;padding:12px 14px;background:transparent;color:var(--fg);border:1px solid var(--line);font:inherit;border-radius:0}
+input:focus,textarea:focus{outline:none;border-color:var(--fg)}
+textarea{min-height:420px;resize:vertical;font:15px/1.6 ui-monospace,Menlo,monospace}
+.check{display:flex;gap:10px;align-items:center;margin-top:18px;font-size:14px}
+.preview{border-left:1px solid var(--line);padding-left:40px}
+@media(max-width:900px){.preview{border:0;padding:0}}
+footer{border-top:1px solid var(--line);padding:32px;text-align:center;color:var(--muted);font-size:12px;letter-spacing:.06em}
+@media(max-width:600px){header.top{padding:14px 18px}main{padding:0 18px 72px}nav{gap:16px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="#/">Cabinet</a>
+  <nav>
+    <a href="#/" id="n-home">Journal</a>
+    <a href="#/ecrire" id="n-write">Écrire</a>
+  </nav>
+</header>
+<main id="app"></main>
+<footer>© <span id="y"></span> Cabinet — un journal en ligne</footer>
+
+<script>
+(() => {
+  const KEY = 'cabinet.articles.v1';
+  const $app = document.getElementById('app');
+  document.getElementById('y').textContent = new Date().getFullYear();
+
+  /* ---------- Données (stockées dans le navigateur) ---------- */
+  const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+  const seed = () => [{
+    id: uid(), title: 'Bienvenue dans le journal', category: 'Édito', cover: '',
+    published: true, date: new Date().toISOString(),
+    body: "## Un premier texte\n\nVoici un **article d'exemple**. Rendez-vous dans l'onglet *Écrire* pour le modifier ou en créer un nouveau.\n\n> Une citation se fait avec le signe supérieur à.\n\n- des listes\n- des [liens](https://example.org)\n- des images : `![légende](https://…)`"
+  }];
+  const load = () => { try { return JSON.parse(localStorage.getItem(KEY)); } catch { return null; } };
+  const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(articles)); } catch { alert("Impossible d'enregistrer dans le navigateur."); } };
+  let articles = load() || seed();
+  persist();
+
+  /* ---------- Markdown minimal (sans dépendance) ---------- */
+  const esc = s => s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const inline = s => esc(s)
+    .replace(/!\[([^\]]*)\]\((https?:[^)\s]+)\)/g, '<img src="$2" alt="$1">')
+    .replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2" rel="noopener" target="_blank">$1</a>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>')
+    .replace(/`([^`]+)`/g, '<code>$1</code>');
+  function md(src) {
+    const out = []; let para = [], list = null, quote = [], code = null;
+    const flush = () => {
+      if (para.length) { out.push('<p>' + inline(para.join(' ')) + '</p>'); para = []; }
+      if (list) { out.push(`<${list.t}>` + list.items.map(i => '<li>' + inline(i) + '</li>').join('') + `</${list.t}>`); list = null; }
+      if (quote.length) { out.push('<blockquote>' + inline(quote.join(' ')) + '</blockquote>'); quote = []; }
+    };
+    for (const l of (src || '').replace(/\r/g, '').split('\n')) {
+      if (code) { if (l.startsWith('```')) { out.push('<pre><code>' + esc(code.join('\n')) + '</code></pre>'); code = null; } else code.push(l); continue; }
+      if (l.startsWith('```')) { flush(); code = []; continue; }
+      if (!l.trim()) { flush(); continue; }
+      let m;
+      if ((m = l.match(/^(#{1,3})\s+(.*)/))) { flush(); const n = m[1].length + 1; out.push(`<h${n}>${inline(m[2])}</h${n}>`); continue; }
+      if (/^---+$/.test(l.trim())) { flush(); out.push('<hr>'); continue; }
+      if ((m = l.match(/^>\s?(.*)/))) { if (!quote.length) flush(); quote.push(m[1]); continue; }
+      if ((m = l.match(/^([-*]|\d+\.)\s+(.*)/))) {
+        const t = /\d/.test(m[1]) ? 'ol' : 'ul';
+        if (!list || list.t !== t) { flush(); list = { t, items: [] }; }
+        list.items.push(m[2]); continue;
+      }
+      if (list || quote.length) flush();
+      para.push(l.trim());
+    }
+    if (code) out.push('<pre><code>' + esc(code.join('\n')) + '</code></pre>');
+    flush();
+    return out.join('\n');
+  }
+
+  const fmtDate = d => new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+  const safeUrl = u => /^https?:\/\//i.test(u || '') ? esc(u) : '';
+
+  /* ---------- Vues ---------- */
+  function viewHome() {
+    const list = articles.filter(a => a.published).sort((a, b) => b.date.localeCompare(a.date));
+    $app.innerHTML = `
+      <section class="hero">
+        <h1>Un lieu pour <em>regarder</em>, lire et penser lentement.</h1>
+        <p>Textes, notes et images — publiés au fil de l'eau.</p>
+      </section>
+      ${list.length ? `<div class="grid">${list.map(a => `
+        <a class="card" href="#/article/${a.id}">
+          <div class="img">${safeUrl(a.cover) ? `<img src="${safeUrl(a.cover)}" alt="" loading="lazy">` : `<span class="ph">${esc((a.title || '?')[0])}</span>`}</div>
+          <div class="meta">${esc(a.category || 'Article')} · ${fmtDate(a.date)}</div>
+          <h3>${esc(a.title || 'Sans titre')}</h3>
+        </a>`).join('')}</div>` : `<p class="empty">Aucun article publié pour le moment.</p>`}`;
+  }
+
+  function viewArticle(id) {
+    const a = articles.find(x => x.id === id && x.published) || articles.find(x => x.id === id);
+    if (!a) { $app.innerHTML = '<p class="empty" style="padding-top:80px">Article introuvable.</p>'; return; }
+    $app.innerHTML = `
+      <article class="article">
+        <div class="cat">${esc(a.category || 'Article')}${a.published ? '' : ' · brouillon'}</div>
+        <h1>${esc(a.title || 'Sans titre')}</h1>
+        <div class="date">${fmtDate(a.date)}</div>
+        ${safeUrl(a.cover) ? `<img class="cover" src="${safeUrl(a.cover)}" alt="">` : ''}
+        <div class="prose">${md(a.body)}</div>
+        <a class="back" href="#/">← Retour au journal</a>
+      </article>`;
+  }
+
+  function viewWriteList() {
+    const list = [...articles].sort((a, b) => b.date.localeCompare(a.date));
+    $app.innerHTML = `
+      <div class="hero" style="padding-bottom:0"><h1>Écrire</h1></div>
+      <div class="bar">
+        <a class="btn primary" href="#/ecrire/nouveau">Nouvel article</a>
+        <button class="btn" id="exp">Exporter tout (JSON)</button>
+        <label class="btn" style="margin:0;cursor:pointer">Importer<input id="imp" type="file" accept="application/json" hidden></label>
+      </div>
+      <div class="list">${list.map(a => `
+        <div class="row">
+          <div><b>${esc(a.title || 'Sans titre')}</b><small>${fmtDate(a.date)} · ${esc(a.category || '—')}</small></div>
+          <div style="display:flex;gap:10px;align-items:center">
+            <span class="tag">${a.published ? 'Publié' : 'Brouillon'}</span>
+            <a class="btn" href="#/ecrire/${a.id}">Modifier</a>
+          </div>
+        </div>`).join('') || '<p class="empty">Aucun article.</p>'}</div>
+      <p class="empty" style="font-size:13px">Les articles sont enregistrés dans ce navigateur. Utilisez « Exporter » pour les sauvegarder ou les transférer.</p>`;
+    document.getElementById('exp').onclick = () => {
+      const url = URL.createObjectURL(new Blob([JSON.stringify(articles, null, 2)], { type: 'application/json' }));
+      Object.assign(document.createElement('a'), { href: url, download: 'articles.json' }).click();
+      URL.revokeObjectURL(url);
+    };
+    document.getElementById('imp').onchange = e => {
+      const f = e.target.files[0]; if (!f) return;
+      f.text().then(t => {
+        const data = JSON.parse(t);
+        if (!Array.isArray(data)) throw 0;
+        const ids = new Set(articles.map(a => a.id));
+        data.forEach(a => { if (a && a.id && !ids.has(a.id)) articles.push(a); });
+        persist(); viewWriteList();
+      }).catch(() => alert('Fichier invalide.'));
+    };
+  }
+
+  function viewEditor(id) {
+    const existing = articles.find(a => a.id === id);
+    const cur = existing ? { ...existing } : { id: uid(), title: '', category: '', cover: '', body: '', published: false, date: new Date().toISOString() };
+    $app.innerHTML = `
+      <div class="editor">
+        <div>
+          <a href="#/ecrire" style="font-size:13px">← Mes articles</a>
+          <label>Titre</label><input type="text" id="f-title" value="${esc(cur.title)}">
+          <label>Rubrique</label><input type="text" id="f-cat" value="${esc(cur.category)}" placeholder="Ex. : Essai, Note, Exposition">
+          <label>Image de couverture (URL)</label><input type="url" id="f-cover" value="${esc(cur.cover)}" placeholder="https://…">
+          <label>Texte (Markdown)</label><textarea id="f-body">${esc(cur.body)}</textarea>
+          <label class="check"><input type="checkbox" id="f-pub" ${cur.published ? 'checked' : ''}> Publier cet article</label>
+          <div class="bar">
+            <button class="btn primary" id="save">Enregistrer</button>
+            ${existing ? '<button class="btn danger" id="del">Supprimer</button>' : ''}
+          </div>
+          <small style="color:var(--muted)">Syntaxe : <code># titre</code> · <code>**gras**</code> · <code>*italique*</code> · <code>[texte](url)</code> · <code>![alt](url)</code> · <code>&gt; citation</code> · <code>- liste</code></small>
+        </div>
+        <div class="preview"><div class="cat" style="font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)">Aperçu</div>
+          <h1 id="p-title" style="font:400 44px/1.1 var(--serif);margin:10px 0 24px"></h1>
+          <div class="prose" id="p-body"></div></div>
+      </div>`;
+    const $ = i => document.getElementById(i);
+    const upd = () => { $('p-title').textContent = $('f-title').value; $('p-body').innerHTML = md($('f-body').value); };
+    ['f-title', 'f-body'].forEach(i => $(i).addEventListener('input', upd)); upd();
+    $('save').onclick = () => {
+      cur.title = $('f-title').value.trim(); cur.category = $('f-cat').value.trim();
+      cur.cover = $('f-cover').value.trim(); cur.body = $('f-body').value; cur.published = $('f-pub').checked;
+      if (!cur.title) { alert('Ajoutez un titre.'); return; }
+      const i = articles.findIndex(a => a.id === cur.id);
+      if (i >= 0) articles[i] = cur; else articles.push(cur);
+      persist(); location.hash = '#/ecrire';
+    };
+    if (existing) $('del').onclick = () => {
+      if (!confirm('Supprimer définitivement cet article ?')) return;
+      articles = articles.filter(a => a.id !== cur.id); persist(); location.hash = '#/ecrire';
+    };
+  }
+
+  /* ---------- Routage ---------- */
+  function route() {
+    const h = location.hash.replace(/^#\/?/, '').split('/');
+    document.getElementById('n-home').classList.toggle('on', h[0] === '' || h[0] === 'article');
+    document.getElementById('n-write').classList.toggle('on', h[0] === 'ecrire');
+    window.scrollTo(0, 0);
+    if (h[0] === 'article' && h[1]) return viewArticle(h[1]);
+    if (h[0] === 'ecrire') return h[1] ? viewEditor(h[1] === 'nouveau' ? null : h[1]) : viewWriteList();
+    viewHome();
+  }
+  addEventListener('hashchange', route);
+  route();
+})();
+</script>
+</body>
+</html>
