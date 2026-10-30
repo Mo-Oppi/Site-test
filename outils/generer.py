@@ -217,10 +217,12 @@ def main():
     site_pages = settings.setdefault("pages", [])
 
     articles, seen = [], {}
-    for path, rel in sources(ROOT / "articles"):
+    # en cas de doublon (même article en .docx et en .md), le fichier Word l'emporte
+    for path, rel in sorted(sources(ROOT / "articles"), key=lambda x: (x[0].suffix.lower() != ".docx", str(x[1]))):
         slug, entry, md = build_one(path, rel)
         if slug in seen:
-            raise Erreur("Deux fichiers donnent le même article : %s et %s." % (seen[slug], rel))
+            print("AVERTISSEMENT : %s ignoré, car %s donne déjà le même article. Supprimez l'un des deux." % (rel, seen[slug]))
+            continue
         seen[slug] = rel
         (OUT / "articles" / (slug + ".md")).write_text(md, encoding="utf-8")
         articles.append(entry)
