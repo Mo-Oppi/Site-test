@@ -212,6 +212,17 @@ def main():
         elif s.exists():
             shutil.copy2(s, OUT / name)
     (OUT / ".nojekyll").write_text("")
+    # Évite que le navigateur garde l'ancienne version du style ou du script après une mise à jour :
+    # on ajoute à leur adresse un identifiant calculé à partir de leur contenu (ex. style.css?v=1a2b3c4d).
+    import hashlib
+    for page in OUT.glob("*.html"):
+        html = page.read_text(encoding="utf-8")
+        for asset in ("assets/style.css", "assets/carnet.js"):
+            f = OUT / asset
+            if f.exists():
+                v = hashlib.md5(f.read_bytes()).hexdigest()[:8]
+                html = html.replace('"%s"' % asset, '"%s?v=%s"' % (asset, v))
+        page.write_text(html, encoding="utf-8")
 
     texte = (ROOT / "reglages.json").read_text(encoding="utf-8-sig")
     try:
