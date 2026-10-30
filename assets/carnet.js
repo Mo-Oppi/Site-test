@@ -449,7 +449,7 @@
     var timer = null;
     box.addEventListener('pointerenter', function () {
       clearTimeout(timer);
-      timer = setTimeout(function () { timer = null; showStars(); }, 5000);
+      timer = setTimeout(function () { timer = null; showStars(); }, 2000);
     });
     box.addEventListener('pointerleave', function () { clearTimeout(timer); timer = null; });
     return box;
