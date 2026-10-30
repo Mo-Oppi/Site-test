@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Ajouter un article</title>
+<link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/carnet.js" defer></script>
+</head>
+<body data-page="add">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header class="masthead">
+  <div class="brand">
+    <a class="wordmark" href="index.html" aria-describedby="hovercard">
+      <svg class="logo" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect class="b b1" x="-8.5" y="-1" width="17" height="2" rx="1"/><rect class="b b2" x="-8.5" y="-1" width="17" height="2" rx="1"/><rect class="b b3" x="-8.5" y="-1" width="17" height="2" rx="1"/></svg>
+      <span data-site="title">La Légende</span>
+    </a>
+    <div class="hovercard" id="hovercard" role="tooltip"></div>
+  </div>
+  <nav id="nav" aria-label="Navigation principale"></nav>
+</header>
+
+<main id="contenu" class="tool">
+  <p class="kicker">Outil d’édition</p>
+  <h1>Ajouter un article</h1>
+  <p class="hint">Remplissez le formulaire, vérifiez l’aperçu, puis suivez l’étape tout en bas.
+    Rien n’est publié tant que vous n’avez pas validé sur GitHub.</p>
+
+  <div class="tool-grid">
+    <form id="form" onsubmit="return false" autocomplete="off">
+      <label for="f-title">Titre</label>
+      <input id="f-title" type="text">
+
+      <div class="row2">
+        <div><label for="f-date">Date de publication</label><input id="f-date" type="date"></div>
+        <div><label for="f-cat">Rubrique (facultatif)</label><input id="f-cat" type="text" list="f-cats"><datalist id="f-cats"></datalist></div>
+      </div>
+
+      <label for="f-sub">Chapô, phrase d’accroche (facultatif)</label>
+      <input id="f-sub" type="text">
+
+      <label for="f-cover">Vignette de l’accueil (facultatif) — chemin d’une image, ex. <code>images/photo.jpg</code></label>
+      <input id="f-cover" type="text">
+
+      <label for="f-paste">Depuis Word</label>
+      <div id="f-paste" class="pastebox" tabindex="0" role="textbox" aria-label="Zone de collage">Cliquez ici, puis collez votre texte copié depuis Word (Ctrl+V ou Cmd+V).</div>
+
+      <label for="f-body">Texte (Markdown)</label>
+      <textarea id="f-body" rows="18" spellcheck="true"></textarea>
+      <p class="small">Intertitres : <code>## Titre</code> · gras : <code>**mot**</code> · italique : <code>*mot*</code> ·
+        lien : <code>[texte](https://…)</code> · image : <code>![description](images/nom.jpg)</code> ·
+        citation : <code>&gt; texte</code> · liste : <code>- élément</code> ·
+        note : <code>[^1]</code> dans le texte, puis <code>[^1]: texte de la note</code> en fin de document.</p>
+
+      <label for="f-exc">Résumé affiché sur l’accueil (automatique, modifiable)</label>
+      <textarea id="f-exc" rows="3"></textarea>
+    </form>
+
+    <section class="preview-pane" aria-label="Aperçu">
+      <p class="kicker">Aperçu</p>
+      <div class="prose" id="o-preview"></div>
+    </section>
+  </div>
+
+  <section class="steps">
+    <ul id="o-warn" class="warn"></ul>
+
+    <h2>Créer le fichier de l’article</h2>
+    <p>Sur GitHub : dépôt → dossier <code>articles</code> → <strong>Add file → Create new file</strong>. Copiez le nom ci-dessous dans le champ du nom, collez le contenu dans la zone de texte, puis <strong>Commit changes</strong>. C’est tout : la liste des articles se met à jour toute seule.</p>
+    <label for="o-name">Nom du fichier</label>
+    <div class="copyrow"><input id="o-name" type="text" readonly><button type="button" class="btn" data-copy="o-name">Copier</button></div>
+    <label for="o-md">Contenu</label>
+    <div class="copyrow"><textarea id="o-md" rows="8" readonly></textarea><button type="button" class="btn" data-copy="o-md">Copier</button></div>
+    <p class="small">Le site se met à jour environ deux minutes après la validation. Vous préférez Word ? Déposez simplement votre fichier <code>.docx</code> dans le dossier <code>articles</code> : cet outil devient inutile.</p>
+  </section>
+</main>
+<footer class="site-footer"></footer>
+</body>
+</html>
