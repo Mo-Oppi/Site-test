@@ -424,9 +424,51 @@
     if (f) {
       f.innerHTML = '<p>© ' + new Date().getFullYear() + (site.author ? ' ' + esc(site.author) : '') +
         (site.footer ? ' · ' + esc(site.footer) : '') + '</p>';
+      f.appendChild(buildBalance());
     }
     return title;
   }
+  /* ------------------------------------------------------------------ *
+   * Easter egg : la balance de la justice (pied de page)
+   *  - au survol, elle se déconstruit ; à la sortie, elle se reconstruit ;
+   *  - maintenue 5 secondes, elle fait apparaître des étoiles pendant 3 secondes.
+   * ------------------------------------------------------------------ */
+  function buildBalance() {
+    var box = d.createElement('div');
+    box.className = 'balance';
+    box.setAttribute('aria-hidden', 'true');
+    function part(inner, dx, dy, r) { return '<g class="part" style="--dx:' + dx + 'px;--dy:' + dy + 'px;--r:' + r + 'deg">' + inner + '</g>'; }
+    var pan = function (x) { return '<path d="M' + (x - 8) + ' 33 Q' + x + ' 42 ' + (x + 8) + ' 33 Z"/>'; };
+    box.innerHTML = '<svg viewBox="0 0 60 56" focusable="false">' +
+      part('<path d="M16 52h28M22 52c1-4 3-5 8-5s7 1 8 5"/>', 0, 12, 0) +
+      part('<path d="M30 47V10"/><circle cx="30" cy="7" r="2.2"/>', 0, -14, 25) +
+      part('<path d="M6 14h48"/>', 0, -9, -35) +
+      part('<path d="M6 14 0 33M6 14 12 33"/>' + pan(6), -17, 8, -40) +
+      part('<path d="M54 14 48 33M54 14 60 33"/>' + pan(54), 17, 11, 45) +
+      '</svg>';
+    var timer = null;
+    box.addEventListener('pointerenter', function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () { timer = null; showStars(); }, 5000);
+    });
+    box.addEventListener('pointerleave', function () { clearTimeout(timer); timer = null; });
+    return box;
+  }
+  function showStars() {
+    if ($('.stars')) return;
+    var layer = d.createElement('div');
+    layer.className = 'stars';
+    layer.setAttribute('aria-hidden', 'true');
+    for (var i = 0; i < 44; i++) {
+      var st = d.createElement('span'), size = 8 + Math.random() * 20;
+      st.style.cssText = 'left:' + (Math.random() * 100).toFixed(1) + '%;top:' + (Math.random() * 100).toFixed(1) + '%;' +
+        'width:' + size.toFixed(1) + 'px;height:' + size.toFixed(1) + 'px;animation-delay:' + (Math.random() * 0.8).toFixed(2) + 's';
+      layer.appendChild(st);
+    }
+    d.body.appendChild(layer);
+    setTimeout(function () { if (layer.parentNode) layer.parentNode.removeChild(layer); }, 3000);
+  }
+
   function sortedArticles(data) {
     return (data.articles || []).map(function (a) {
       var c = {}; for (var k in a) c[k] = a[k];

@@ -350,3 +350,26 @@ code { font: .88em ui-monospace, "SF Mono", Menlo, Consolas, monospace; backgrou
 .prose table { border-collapse: collapse; width: 100%; font-size: .92em; line-height: 1.45; }
 .prose th, .prose td { padding: .45em .7em; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
 .prose th { font-weight: 600; border-bottom-color: var(--ink); }
+
+/* Easter egg : la balance (pied de page) */
+.balance { display: inline-block; margin-top: 2.2rem; padding: 1.2rem 2rem 0; color: var(--muted); opacity: .75; }
+.balance svg { display: block; width: 40px; height: 38px; overflow: visible; fill: none; stroke: currentColor; stroke-width: 1.3; stroke-linecap: round; stroke-linejoin: round; }
+.balance .part { transform-box: fill-box; transform-origin: center; transition: transform .8s cubic-bezier(.3, 1.4, .5, 1); }
+.balance:hover .part { transform: translate(var(--dx), var(--dy)) rotate(var(--r)); transition-duration: .55s; }
+.stars { position: fixed; inset: 0; z-index: 60; pointer-events: none; overflow: hidden; }
+.stars span {
+  position: absolute; background: #d9a441; opacity: 0;
+  clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%);
+  animation: etoile 3s ease-in-out both;
+}
+@keyframes etoile {
+  0% { opacity: 0; transform: scale(.2) rotate(0); }
+  20% { opacity: 1; transform: scale(1) rotate(40deg); }
+  50% { opacity: .55; transform: scale(.75) rotate(80deg); }
+  75% { opacity: 1; transform: scale(1.1) rotate(120deg); }
+  100% { opacity: 0; transform: scale(.4) rotate(160deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .balance .part { transition: none; }
+  .stars span { animation: none; opacity: .9; }
+}
