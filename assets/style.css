@@ -20,12 +20,12 @@
 }
 
 :root {
-  --bg: #f6f3ec;
+  --bg: #ebe6d8;
   --ink: #1f1d19;
   --muted: #6b665c;
-  --line: #ddd7ca;
+  --line: #d3ccbb;
   --accent: #a3472c;
-  --wash: #ece7dc;
+  --wash: #e0dac9;
 
   --serif: "Lora", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
