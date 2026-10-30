@@ -1,0 +1,47 @@
+name: Publier le site
+
+# Se lance à chaque dépôt ou modification de fichier sur la branche principale,
+# ou à la demande (onglet Actions → Publier le site → Run workflow).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer les fichiers
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # nécessaire pour retrouver la date de dépôt des fichiers sans date
+      - name: Configurer GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Installer Pandoc (lecture des fichiers Word)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq pandoc
+      - name: Construire le site
+        run: python3 outils/generer.py
+      - name: Préparer la mise en ligne
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Mettre en ligne
+        id: deployment
+        uses: actions/deploy-pages@v4
