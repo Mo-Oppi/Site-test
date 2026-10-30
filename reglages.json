@@ -1,16 +1,15 @@
 {
-  "title": "La Légende",
-  "tagline": "Textes, notes et lectures — publiés au fil de l’eau.",
-  "description": "Un carnet en ligne : articles, notes et lectures.",
+  "title": "Les Légendes",
+  "tagline": "Blog juridique. Analyse critique.",
+  "description": "Un petit site de critique juridique.",
   "hovercard": {
     "title": "La Légende des siècles",
     "subtitle": "Victor Hugo · 1859-1883",
     "text": [
-      "Recueil de poèmes de Victor Hugo, écrit pour l’essentiel en exil à Guernesey et publié en trois séries (1859, 1877 et 1883). Hugo y compose de « petites épopées » : des scènes isolées, souvent portées par des figures obscures, qui racontent l’histoire de l’humanité par fragments.",
-      "Ce carnet en emprunte l’esprit : il avance lui aussi par fragments, texte après texte, sans plan d’ensemble."
+      "La Légende des siècles est un recueil de poèmes de Victor Hugo, conçu comme une œuvre monumentale destinée à dépeindre l'histoire et l'évolution de l'Humanité. Après les Châtiments et les Contemplations, l'oeuvre poétique d'Hugo atteint sa quintessence dans ce recueil.",
     ],
     "link": {
-      "label": "En savoir plus sur Wikipédia",
+      "label": "Wikipédia",
       "url": "https://fr.wikipedia.org/wiki/La_L%C3%A9gende_des_si%C3%A8cles"
     }
   },
