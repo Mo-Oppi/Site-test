@@ -213,7 +213,17 @@ def main():
             shutil.copy2(s, OUT / name)
     (OUT / ".nojekyll").write_text("")
 
-    settings = json.loads((ROOT / "reglages.json").read_text(encoding="utf-8"))
+    texte = (ROOT / "reglages.json").read_text(encoding="utf-8-sig")
+    try:
+        settings = json.loads(texte)
+    except json.JSONDecodeError as e:
+        ligne = texte.splitlines()[e.lineno - 1] if 0 < e.lineno <= len(texte.splitlines()) else ""
+        raise Erreur(
+            "reglages.json est mal écrit (ligne %d, colonne %d).\n    %s\n"
+            "Vérifiez sur cette ligne et la précédente : chaque texte doit être entouré de guillemets droits \" "
+            "(pas de guillemets courbes “ ” ni « »), séparé du suivant par une virgule, sans virgule après le dernier. "
+            "À l'intérieur d'un texte, écrivez \\\" pour un guillemet droit, ou utilisez « » . Détail : %s"
+            % (e.lineno, e.colno, ligne.strip(), e.msg))
     site_pages = settings.setdefault("pages", [])
 
     articles, seen = [], {}
